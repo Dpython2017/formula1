@@ -4,11 +4,20 @@ from django.db import models
 
 
 class Fastest_laps(models.Model):
-
-    grand_prix = models.CharField(max_length=15)
-    driver = models.CharField(max_length=25)
+    driver_name = models.CharField(max_length=25, null=True)
+    grand_prix = models.CharField(max_length=15, blank=True)
     car_model = models.CharField(max_length=50)
     time_taken = models.CharField(blank=True, max_length=8)
 
     def __str__(self):
-        return self.grand_prix
+        return self.driver_name
+
+
+class Driver(models.Model):
+
+    place_of_birth = models.CharField(max_length=25)
+    driver = models.ForeignKey(Fastest_laps, db_column='driver_name')
+    picture = models.ImageField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.driver)
